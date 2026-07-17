@@ -48,37 +48,39 @@ function Login() {
 
     return (
 
-    <div className="login-container">
+        <div className="login-container">
 
-        <form className="login-form" onSubmit={handleSubmit}>
+            <form className="login-form" onSubmit={handleSubmit}>
 
-            <h2>Login</h2>
+                <h2>Login</h2>
 
-            <input
-                type="email"
-                name="email"
-                placeholder="Enter Email"
-                onChange={handleChange}
-            />
-
-            <input
-                type="password"
-                name="password"
-                placeholder="Enter Password"
-                onChange={handleChange}
-            />
-
-            <button type="submit">
-                Login
-            </button>
-
-        </form>
-
-    </div>
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter Email"
+                    value={login.email}
+                    onChange={handleChange}
+                />
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter Password"
+                    value={login.password}
+                    onChange={handleChange}
+                />
 
 
+                <button type="submit">
+                    Login
+                </button>
 
-   
+            </form>
+
+        </div>
+
+
+
+
 
     );
 }

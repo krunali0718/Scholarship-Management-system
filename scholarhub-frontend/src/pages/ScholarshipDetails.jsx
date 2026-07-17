@@ -10,25 +10,27 @@ function ScholarshipDetails() {
     const [scholarship, setScholarship] = useState(null);
 
     useEffect(() => {
-        loadScholarship();
-    }, []);
 
-    async function loadScholarship() {
+        async function loadScholarship() {
 
-        try {
+            try {
 
-            const response = await getScholarshipById(id);
+                const response = await getScholarshipById(id);
 
-            setScholarship(response.data);
+                setScholarship(response.data);
 
-        } catch (error) {
+            } catch (error) {
 
-            console.log(error);
+                console.log(error);
 
-            alert("Unable to load Scholarship Details");
+                alert("Unable to load Scholarship Details");
 
+            }
         }
-    }
+
+        loadScholarship();
+
+    }, [id]);
 
     if (!scholarship) {
 

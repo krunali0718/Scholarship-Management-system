@@ -21,7 +21,7 @@ function ProtectedRoute({ children, role }) {
 
         return children;
 
-    } catch (error) {
+    } catch {
 
         localStorage.removeItem("token");
 

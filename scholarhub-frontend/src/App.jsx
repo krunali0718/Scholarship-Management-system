@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -14,6 +14,7 @@ import AddScholarship from "./pages/AddScholarship";
 import MyApplications from "./pages/MyApplications";
 import RegisteredUsers from "./pages/RegisteredUsers";
 import AdminDashboard from "./pages/AdminDashboard";
+import Applications from "./pages/Applications";
 
 function App() {
 
@@ -111,6 +112,20 @@ function App() {
                             <RegisteredUsers />
                         </ProtectedRoute>
                     }
+                />
+
+                <Route
+                    path="/applications"
+                    element={
+                        <ProtectedRoute role="ADMIN">
+                            <Applications />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="*"
+                    element={<Navigate to="/" replace />}
                 />
 
             </Routes>
