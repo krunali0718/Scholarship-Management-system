@@ -1,0 +1,156 @@
+/* ===========================
+   Application Container
+=========================== */
+
+.application-container{
+    width:90%;
+    margin:40px auto;
+}
+
+.application-container h1{
+    text-align:center;
+    color:#2563eb;
+    margin-bottom:30px;
+}
+
+/* ===========================
+   Application Table
+=========================== */
+
+.application-container table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    box-shadow:0 8px 20px rgba(0,0,0,0.1);
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.application-container th{
+    background:#2563eb;
+    color:white;
+    padding:15px;
+    text-align:center;
+}
+
+.application-container td{
+    padding:15px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+}
+
+.application-container tr:hover{
+    background:#f4f7fc;
+}
+
+/* ===========================
+   Application Card
+=========================== */
+
+.application-card{
+    width:90%;
+    max-width:700px;
+    margin:25px auto;
+    background:white;
+    border-radius:12px;
+    padding:25px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.1);
+}
+
+.application-card h2{
+    color:#2563eb;
+    margin-bottom:15px;
+}
+
+.application-card p{
+    margin:12px 0;
+    color:#444;
+    line-height:1.6;
+}
+
+/* ===========================
+   Buttons
+=========================== */
+
+.application-buttons{
+    display:flex;
+    gap:15px;
+    margin-top:20px;
+}
+
+.application-buttons button{
+    flex:1;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:16px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+/* Approve Button */
+
+.application-buttons button:first-child{
+    background:#16a34a;
+    color:white;
+}
+
+.application-buttons button:first-child:hover{
+    background:#15803d;
+}
+
+/* Reject Button */
+
+.application-buttons button:last-child{
+    background:#dc2626;
+    color:white;
+}
+
+.application-buttons button:last-child:hover{
+    background:#b91c1c;
+}
+
+/* ===========================
+   Status Badge
+=========================== */
+
+.status-pending{
+    color:#f59e0b;
+    font-weight:bold;
+}
+
+.status-approved{
+    color:#16a34a;
+    font-weight:bold;
+}
+
+.status-rejected{
+    color:#dc2626;
+    font-weight:bold;
+}
+
+/* ===========================
+   Responsive
+=========================== */
+
+@media(max-width:768px){
+
+    .application-container{
+        width:95%;
+    }
+
+    .application-card{
+        width:100%;
+    }
+
+    .application-buttons{
+        flex-direction:column;
+    }
+
+    .application-container table{
+        display:block;
+        overflow-x:auto;
+    }
+
+}

@@ -1,0 +1,161 @@
+.home-container {
+    width: 100%;
+    min-height: 100vh;
+    background: #f5f7fb;
+}
+
+/* ================= HERO SECTION ================= */
+
+.hero {
+    text-align: center;
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #2563eb, #1e3a8a);
+    color: white;
+}
+
+.hero h1 {
+    font-size: 50px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 20px;
+    max-width: 700px;
+    margin: auto;
+    line-height: 1.8;
+}
+
+.hero-buttons {
+    margin-top: 35px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.hero-buttons button {
+    padding: 14px 30px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.register-btn {
+    background: white;
+    color: #2563eb;
+}
+
+.register-btn:hover {
+    background: #e5e7eb;
+}
+
+.login-btn {
+    background: #facc15;
+    color: black;
+}
+
+.login-btn:hover {
+    background: #eab308;
+}
+
+/* ================= FEATURES ================= */
+
+.features {
+    width: 90%;
+    max-width: 1200px;
+    margin: 60px auto;
+}
+
+.features h2 {
+    text-align: center;
+    color: #2563eb;
+    margin-bottom: 40px;
+    font-size: 34px;
+}
+
+.feature-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.08);
+    transition: .3s;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+}
+
+.card h3 {
+    color: #2563eb;
+    margin-bottom: 15px;
+}
+
+.card p {
+    color: #555;
+    line-height: 1.7;
+}
+
+/* ================= ABOUT ================= */
+
+.about {
+    width: 90%;
+    max-width: 1000px;
+    margin: 60px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.08);
+}
+
+.about h2 {
+    text-align: center;
+    color: #2563eb;
+    margin-bottom: 20px;
+}
+
+.about p {
+    text-align: center;
+    color: #555;
+    line-height: 1.8;
+    font-size: 18px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width:768px){
+
+    .hero{
+        padding:60px 20px;
+    }
+
+    .hero h1{
+        font-size:34px;
+    }
+
+    .hero p{
+        font-size:17px;
+    }
+
+    .hero-buttons{
+        flex-direction:column;
+        align-items:center;
+    }
+
+    .hero-buttons button{
+        width:220px;
+    }
+
+    .features h2,
+    .about h2{
+        font-size:28px;
+    }
+
+}

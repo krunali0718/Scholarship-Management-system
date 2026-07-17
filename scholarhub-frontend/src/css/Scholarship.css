@@ -1,0 +1,182 @@
+/* ===========================
+   Scholarship List
+=========================== */
+
+.scholarship-container{
+    width:90%;
+    margin:40px auto;
+}
+
+.scholarship-container h1{
+    text-align:center;
+    color:#2563eb;
+    margin-bottom:30px;
+}
+
+/* ===========================
+   Scholarship Cards
+=========================== */
+
+.scholarship-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:25px;
+}
+
+.scholarship-card{
+    background:#fff;
+    border-radius:12px;
+    padding:20px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+
+.scholarship-card:hover{
+    transform:translateY(-5px);
+}
+
+.scholarship-card h2{
+    color:#2563eb;
+    margin-bottom:15px;
+}
+
+.scholarship-card p{
+    margin:10px 0;
+    color:#444;
+    line-height:1.6;
+}
+
+.card-buttons{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+.card-buttons button{
+    flex:1;
+    padding:10px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    background:#2563eb;
+    color:white;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.card-buttons button:hover{
+    background:#1d4ed8;
+}
+
+/* ===========================
+   Scholarship Details
+=========================== */
+
+.scholarship-details{
+    width:80%;
+    max-width:800px;
+    margin:40px auto;
+    background:white;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.1);
+}
+
+.scholarship-details h1{
+    color:#2563eb;
+    margin-bottom:20px;
+}
+
+.scholarship-details p{
+    margin:15px 0;
+    color:#444;
+    line-height:1.8;
+}
+
+.scholarship-details button{
+    padding:12px 25px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.scholarship-details button:hover{
+    background:#1d4ed8;
+}
+
+/* ===========================
+   Add Scholarship Form
+=========================== */
+
+.scholarship-form-container{
+    width:90%;
+    max-width:700px;
+    margin:40px auto;
+    background:white;
+    padding:35px;
+    border-radius:12px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.1);
+}
+
+.scholarship-form-container h1{
+    text-align:center;
+    color:#2563eb;
+    margin-bottom:25px;
+}
+
+.scholarship-form-container input,
+.scholarship-form-container textarea,
+.scholarship-form-container select{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    margin-bottom:18px;
+    font-size:16px;
+}
+
+.scholarship-form-container textarea{
+    resize:none;
+    height:120px;
+}
+
+.scholarship-form-container input:focus,
+.scholarship-form-container textarea:focus,
+.scholarship-form-container select:focus{
+    outline:none;
+    border-color:#2563eb;
+}
+
+.scholarship-form-container button{
+    width:100%;
+    padding:14px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:18px;
+    cursor:pointer;
+}
+
+.scholarship-form-container button:hover{
+    background:#1d4ed8;
+}
+
+/* ===========================
+   Responsive
+=========================== */
+
+@media(max-width:768px){
+
+    .scholarship-details{
+        width:95%;
+    }
+
+    .card-buttons{
+        flex-direction:column;
+    }
+
+}

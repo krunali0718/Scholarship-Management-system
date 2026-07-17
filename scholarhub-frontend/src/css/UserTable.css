@@ -1,0 +1,135 @@
+.table-container{
+
+    width:90%;
+    max-width:1200px;
+    margin:40px auto;
+
+}
+
+.table-container h1,
+.table-container h2{
+
+    text-align:center;
+    color:#2563eb;
+    margin-bottom:25px;
+
+}
+
+.users-btn{
+
+    display:block;
+    margin:0 auto 25px;
+    padding:12px 25px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+
+}
+
+.users-btn:hover{
+
+    background:#1d4ed8;
+
+}
+
+.table-container table{
+
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 8px 20px rgba(0,0,0,0.1);
+
+}
+
+.table-container thead{
+
+    background:#2563eb;
+    color:white;
+
+}
+
+.table-container th{
+
+    padding:16px;
+    text-align:center;
+    font-size:17px;
+
+}
+
+.table-container td{
+
+    padding:15px;
+    text-align:center;
+    border-bottom:1px solid #e5e7eb;
+
+}
+
+.table-container tbody tr:hover{
+
+    background:#f8fafc;
+
+}
+
+.table-container tbody tr:last-child td{
+
+    border-bottom:none;
+
+}
+
+.role{
+
+    padding:6px 14px;
+    border-radius:20px;
+    font-weight:bold;
+    color:white;
+    display:inline-block;
+
+}
+
+.role-admin{
+
+    background:#dc2626;
+
+}
+
+.role-student{
+
+    background:#16a34a;
+
+}
+
+.role-trainer{
+
+    background:#2563eb;
+
+}
+
+@media(max-width:768px){
+
+    .table-container{
+
+        width:95%;
+    }
+
+    .table-container table{
+
+        display:block;
+        overflow-x:auto;
+        white-space:nowrap;
+
+    }
+
+    .users-btn{
+
+        width:100%;
+
+    }
+
+}
