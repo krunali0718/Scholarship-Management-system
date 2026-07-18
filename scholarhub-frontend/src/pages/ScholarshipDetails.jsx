@@ -1,13 +1,21 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getScholarshipById } from "../service/ScholarshipApi";
+import { applyScholarship } from "../service/ApplicationApi";
+import { jwtDecode } from "jwt-decode";
 import "../css/Scholarship.css";
 
 function ScholarshipDetails() {
 
     const { id } = useParams();
+    const navigate = useNavigate();
 
     const [scholarship, setScholarship] = useState(null);
+    const [applying, setApplying] = useState(false);
+
+    const token = localStorage.getItem("token");
+    const decoded = token ? jwtDecode(token) : null;
+    const isStudent = decoded && decoded.role === "STUDENT";
 
     useEffect(() => {
 
@@ -16,13 +24,11 @@ function ScholarshipDetails() {
             try {
 
                 const response = await getScholarshipById(id);
-
                 setScholarship(response.data);
 
             } catch (error) {
 
                 console.log(error);
-
                 alert("Unable to load Scholarship Details");
 
             }
@@ -32,10 +38,38 @@ function ScholarshipDetails() {
 
     }, [id]);
 
+    async function handleApply() {
+
+        if (!token) {
+            alert("Please login to apply.");
+            navigate("/login");
+            return;
+        }
+
+        setApplying(true);
+
+        try {
+
+            await applyScholarship({
+                studentId: decoded.userId,
+                scholarshipId: scholarship.id
+            });
+
+            alert("Application submitted successfully!");
+            navigate("/my-applications");
+
+        } catch (error) {
+
+            console.log(error);
+            alert("Failed to apply. You may have already applied.");
+
+        } finally {
+            setApplying(false);
+        }
+    }
+
     if (!scholarship) {
-
         return <h2>Loading Scholarship Details...</h2>;
-
     }
 
     return (
@@ -74,14 +108,21 @@ function ScholarshipDetails() {
 
             <p>
                 <strong>Status :</strong>
-                {scholarship.status}
+                <span className={scholarship.status === "ACTIVE" ? "status-approved" : "status-rejected"}>
+                    {scholarship.status}
+                </span>
             </p>
 
             <br />
 
-            <button>
-                Apply Scholarship
-            </button>
+            {isStudent && (
+                <button
+                    onClick={handleApply}
+                    disabled={applying}
+                >
+                    {applying ? "Applying..." : "🎓 Apply Now"}
+                </button>
+            )}
 
         </div>
 

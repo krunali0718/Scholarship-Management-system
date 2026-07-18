@@ -1,19 +1,21 @@
 import { jwtDecode } from "jwt-decode";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, Navigate } from "react-router-dom";
 import "../css/Dashboard.css";
 
 function Dashboard() {
 
     const navigate = useNavigate();
-
     const token = localStorage.getItem("token");
 
     if (!token) {
-        navigate("/login");
-        return null;
+        return <Navigate to="/login" replace />;
     }
 
     const data = jwtDecode(token);
+
+    if (data.role === "ADMIN") {
+        return <Navigate to="/admin-dashboard" replace />;
+    }
 
     function logout() {
         localStorage.removeItem("token");

@@ -29,7 +29,7 @@ function ApplicationCard({ application, onApprove, onReject }) {
             </p>
 
             {
-                onApprove && onReject && (
+                onApprove && onReject && application.status === "PENDING" && (
 
                     <div className="application-buttons">
 

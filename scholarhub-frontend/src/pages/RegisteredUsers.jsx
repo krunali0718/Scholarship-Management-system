@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getUsers } from "../service/RegisterApi";
 import "../css/UserTable.css";
 
 function RegisteredUsers() {
 
     const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        loadUsers();
+    }, []);
 
     async function loadUsers() {
 
@@ -30,14 +34,7 @@ function RegisteredUsers() {
 
             <h1>Registered Users</h1>
 
-            <button
-                className="users-btn"
-                onClick={loadUsers}
-            >
-                View Registered Users
-            </button>
-
-            <br /><br />
+            <br />
 
             <table border="1" cellPadding="10">
 

@@ -14,7 +14,7 @@ function AddScholarship() {
         eligibility: "",
         category: "",
         lastDate: "",
-        status: "OPEN"
+        status: "ACTIVE"
     });
 
     function handleChange(e) {
@@ -125,8 +125,8 @@ function AddScholarship() {
                     value={scholarship.status}
                     onChange={handleChange}
                 >
-                    <option value="OPEN">OPEN</option>
-                    <option value="CLOSED">CLOSED</option>
+                    <option value="ACTIVE">ACTIVE</option>
+                    <option value="INACTIVE">INACTIVE</option>
                 </select>
 
                 <br /><br />

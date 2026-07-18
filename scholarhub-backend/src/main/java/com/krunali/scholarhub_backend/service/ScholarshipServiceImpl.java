@@ -27,6 +27,8 @@ public class ScholarshipServiceImpl implements ScholarshipService {
         scholarship.setAmount(request.getAmount());
         scholarship.setEligibility(request.getEligibility());
         scholarship.setLastDate(request.getLastDate());
+        scholarship.setCategory(request.getCategory());
+        scholarship.setStatus(request.getStatus());
 
         repository.save(scholarship);
 
@@ -49,6 +51,8 @@ public class ScholarshipServiceImpl implements ScholarshipService {
             dto.setAmount(scholarship.getAmount());
             dto.setEligibility(scholarship.getEligibility());
             dto.setLastDate(scholarship.getLastDate());
+            dto.setCategory(scholarship.getCategory());
+            dto.setStatus(scholarship.getStatus());
 
             response.add(dto);
         }
@@ -70,6 +74,8 @@ public class ScholarshipServiceImpl implements ScholarshipService {
         response.setAmount(scholarship.getAmount());
         response.setEligibility(scholarship.getEligibility());
         response.setLastDate(scholarship.getLastDate());
+        response.setCategory(scholarship.getCategory());
+        response.setStatus(scholarship.getStatus());
 
         return response;
     }

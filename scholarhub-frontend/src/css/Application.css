@@ -131,6 +131,24 @@
 }
 
 /* ===========================
+   No Applications State
+=========================== */
+
+.no-applications {
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.no-applications p {
+    color: #555;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+/* ===========================
    Responsive
 =========================== */
 
