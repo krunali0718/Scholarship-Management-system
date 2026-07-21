@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../service/LoginApi";
 import { jwtDecode } from "jwt-decode";
 import "../css/Login.css";
@@ -57,39 +57,43 @@ function Login() {
 
     return (
 
-        <div className="login-container">
+    <div className="login-container">
 
-            <form className="login-form" onSubmit={handleSubmit}>
+        <form className="login-form" onSubmit={handleSubmit}>
 
-                <h2>Login</h2>
+            <h2>Welcome back</h2>
 
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Enter Email"
-                    value={login.email}
-                    onChange={handleChange}
-                />
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Enter Password"
-                    value={login.password}
-                    onChange={handleChange}
-                />
+            <p>Log in to manage your scholarships</p>
+
+            <input
+                type="email"
+                name="email"
+                placeholder="Enter Email"
+                onChange={handleChange}
+            />
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Enter Password"
+                onChange={handleChange}
+            />
+
+            <button type="submit" className="btn btn-navy">
+                Login
+            </button>
+
+            <p>
+                Don't have an account? <Link to="/register">Register</Link>
+            </p>
+
+        </form>
+
+    </div>
 
 
-                <button type="submit">
-                    Login
-                </button>
 
-            </form>
-
-        </div>
-
-
-
-
+   
 
     );
 }

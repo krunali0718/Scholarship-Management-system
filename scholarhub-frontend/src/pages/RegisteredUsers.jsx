@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { getUsers } from "../service/RegisterApi";
 import "../css/UserTable.css";
 
@@ -6,11 +6,9 @@ function RegisteredUsers() {
 
     const [users, setUsers] = useState([]);
 
-    useEffect(() => {
-        loadUsers();
-    }, []);
-
     async function loadUsers() {
+
+        setLoading(true);
 
         try {
 
@@ -24,7 +22,19 @@ function RegisteredUsers() {
 
             alert("Unable to fetch users.");
 
+        } finally {
+
+            setLoading(false);
+
         }
+
+    }
+
+    function roleClass(role) {
+
+        if (role === "ADMIN") return "role-admin";
+        if (role === "STUDENT") return "role-student";
+        return "role-trainer";
 
     }
 
@@ -34,9 +44,16 @@ function RegisteredUsers() {
 
             <h1>Registered Users</h1>
 
-            <br />
+            <button
+                className="users-btn"
+                onClick={loadUsers}
+            >
+                View Registered Users
+            </button>
 
-            <table border="1" cellPadding="10">
+            <br /><br />
+
+            <table>
 
                 <thead>
 
@@ -57,6 +74,14 @@ function RegisteredUsers() {
                 </thead>
 
                 <tbody>
+
+                    {
+                        !loading && users.length === 0 && (
+                            <tr>
+                                <td colSpan="9">No registered users found</td>
+                            </tr>
+                        )
+                    }
 
                     {
 
@@ -80,7 +105,11 @@ function RegisteredUsers() {
 
                                 <td>{user.familyIncome}</td>
 
-                                <td>{user.role}</td>
+                                <td>
+                                    <span className={`role ${roleClass(user.role)}`}>
+                                        {user.role}
+                                    </span>
+                                </td>
 
                             </tr>
 

@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
@@ -44,18 +45,27 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(auth -> auth
-                    
-                    .requestMatchers("/auth/**").permitAll()
-                        
-                        
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        
-                        .requestMatchers("/student/**").hasRole("STUDENT")
-                        
+
+                        // Public
+                        .requestMatchers("/auth/register", "/auth/login", "/auth/check").permitAll()
+
+                        // Admin-only user management
+                        .requestMatchers("/auth/getRegisteredUsers").hasRole("ADMIN")
+
+                        // Scholarships: public to browse, only ADMIN can create/delete
+                        .requestMatchers(HttpMethod.GET, "/scholarship/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/scholarship/create").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/scholarship/delete/**").hasRole("ADMIN")
+
+                        // Applications: students apply/view their own, admins view all & approve/reject
+                        .requestMatchers(HttpMethod.POST, "/application/apply").hasRole("STUDENT")
+                        .requestMatchers(HttpMethod.GET, "/application/student/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/application/all").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/application/approve/**", "/application/reject/**").hasRole("ADMIN")
+
                         .anyRequest().authenticated())
 
-                .addFilterBefore(jwtAuthenticationFilter,
-                        UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

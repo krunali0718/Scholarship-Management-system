@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getScholarshipById } from "../service/ScholarshipApi";
-import { applyScholarship } from "../service/ApplicationApi";
 import { jwtDecode } from "jwt-decode";
+import { getScholarshipById, applyScholarship } from "../service/ScholarshipApi";
 import "../css/Scholarship.css";
 
 function ScholarshipDetails() {
@@ -12,57 +11,42 @@ function ScholarshipDetails() {
 
     const [scholarship, setScholarship] = useState(null);
     const [applying, setApplying] = useState(false);
-
     const token = localStorage.getItem("token");
-    const decoded = token ? jwtDecode(token) : null;
-    const isStudent = decoded && decoded.role === "STUDENT";
 
     useEffect(() => {
-
-        async function loadScholarship() {
-
-            try {
-
-                const response = await getScholarshipById(id);
-                setScholarship(response.data);
-
-            } catch (error) {
-
-                console.log(error);
-                alert("Unable to load Scholarship Details");
-
-            }
-        }
-
         loadScholarship();
-
     }, [id]);
 
-    async function handleApply() {
+    async function loadScholarship() {
+        try {
+            const response = await getScholarshipById(id);
+            setScholarship(response.data);
+        } catch (error) {
+            console.log(error);
+            alert("Unable to load Scholarship Details");
+        }
+    }
 
+    async function handleApply() {
         if (!token) {
-            alert("Please login to apply.");
+            alert("Please log in as a student to apply.");
             navigate("/login");
             return;
         }
 
+        const { id: studentId } = jwtDecode(token);
+
         setApplying(true);
 
         try {
-
             await applyScholarship({
-                studentId: decoded.userId,
-                scholarshipId: scholarship.id
+                studentId,
+                scholarshipId: Number(id)
             });
-
-            alert("Application submitted successfully!");
-            navigate("/my-applications");
-
+            alert("Application submitted successfully.");
         } catch (error) {
-
             console.log(error);
-            alert("Failed to apply. You may have already applied.");
-
+            alert("Unable to apply for this scholarship.");
         } finally {
             setApplying(false);
         }
@@ -115,14 +99,9 @@ function ScholarshipDetails() {
 
             <br />
 
-            {isStudent && (
-                <button
-                    onClick={handleApply}
-                    disabled={applying}
-                >
-                    {applying ? "Applying..." : "🎓 Apply Now"}
-                </button>
-            )}
+            <button>
+                Apply Scholarship
+            </button>
 
         </div>
 

@@ -130,7 +130,7 @@ function Register() {
                     required
                 />
 
-                <button type="submit">
+                <button type="submit" className="btn btn-navy">
                     Register
                 </button>
 

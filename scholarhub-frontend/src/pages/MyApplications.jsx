@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 import { getStudentApplications } from "../service/ApplicationApi";
 import { jwtDecode } from "jwt-decode";
 import "../css/Application.css";
@@ -15,11 +16,8 @@ function MyApplications() {
 
         try {
 
-            const token = localStorage.getItem("token");
-            if (!token) return;
-
-            const decoded = jwtDecode(token);
-            const studentId = decoded.userId;
+            // Temporary student ID
+            const studentId = 1;
 
             const response = await getStudentApplications(studentId);
             setApplications(response.data);
@@ -30,12 +28,6 @@ function MyApplications() {
             alert("Unable to load applications.");
 
         }
-    }
-
-    function getStatusClass(status) {
-        if (status === "APPROVED") return "status-approved";
-        if (status === "REJECTED") return "status-rejected";
-        return "status-pending";
     }
 
     return (
@@ -52,7 +44,7 @@ function MyApplications() {
 
             ) : (
 
-                <table border="1" cellPadding="10">
+            <table border="1" cellPadding="10">
 
                     <thead>
                         <tr>
@@ -64,21 +56,46 @@ function MyApplications() {
                         </tr>
                     </thead>
 
-                    <tbody>
-                        {applications.map((application) => (
-                            <tr key={application.id}>
-                                <td>{application.id}</td>
-                                <td>{application.scholarshipTitle}</td>
-                                <td>{application.applicationDate}</td>
-                                <td>
-                                    <span className={getStatusClass(application.status)}>
-                                        {application.status}
-                                    </span>
-                                </td>
-                                <td>{application.remarks}</td>
-                            </tr>
-                        ))}
-                    </tbody>
+                <tbody>
+
+                    {
+                        applications.length === 0 ?
+
+                            (
+                                <tr>
+                                    <td colSpan="5">
+                                        No Applications Found
+                                    </td>
+                                </tr>
+                            )
+
+                            :
+
+                            (
+
+                                applications.map((application) => (
+
+                                    <tr key={application.id}>
+
+                                        <td>{application.id}</td>
+
+                                        <td>{application.scholarshipTitle}</td>
+
+                                        <td>{application.applicationDate}</td>
+
+                                        <td>{application.status}</td>
+
+                                        <td>{application.remarks}</td>
+
+                                    </tr>
+
+                                ))
+
+                            )
+
+                    }
+
+                </tbody>
 
                 </table>
 
@@ -89,4 +106,4 @@ function MyApplications() {
     );
 }
 
-export default MyApplications;
+export default MyApplications;

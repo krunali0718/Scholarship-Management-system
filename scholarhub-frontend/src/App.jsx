@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -14,7 +14,7 @@ import AddScholarship from "./pages/AddScholarship";
 import MyApplications from "./pages/MyApplications";
 import RegisteredUsers from "./pages/RegisteredUsers";
 import AdminDashboard from "./pages/AdminDashboard";
-import Applications from "./pages/Applications";
+import AdminApplications from "./pages/AdminApplications";
 
 function App() {
 
@@ -24,111 +24,103 @@ function App() {
 
             <Navbar />
 
-            <Routes>
+            <main className="page">
 
-                {/* Public Routes */}
+                <Routes>
 
-                <Route
-                    path="/"
-                    element={<Home />}
-                />
+                    {/* Public Routes */}
 
-                <Route
-                    path="/login"
-                    element={<Login />}
-                />
+                    <Route
+                        path="/"
+                        element={<Home />}
+                    />
 
-                <Route
-                    path="/register"
-                    element={<Register />}
-                />
+                    <Route
+                        path="/login"
+                        element={<Login />}
+                    />
 
-                {/* Student & Admin */}
+                    <Route
+                        path="/register"
+                        element={<Register />}
+                    />
 
-                <Route
-                    path="/dashboard"
-                    element={
-                        <ProtectedRoute>
-                            <Dashboard />
-                        </ProtectedRoute>
-                    }
-                />
+                    {/* Scholarships are publicly browsable — login is only
+                        required to actually apply (enforced in ScholarshipDetails) */}
 
-                {/* Scholarship */}
+                    <Route
+                        path="/scholarships"
+                        element={<Scholarships />}
+                    />
 
-                <Route
-                    path="/scholarships"
-                    element={
-                        <ProtectedRoute>
-                            <Scholarships />
-                        </ProtectedRoute>
-                    }
-                />
+                    <Route
+                        path="/scholarship/:id"
+                        element={<ScholarshipDetails />}
+                    />
 
-                <Route
-                    path="/scholarship/:id"
-                    element={
-                        <ProtectedRoute>
-                            <ScholarshipDetails />
-                        </ProtectedRoute>
-                    }
-                />
+                    {/* Student & Admin */}
 
-                {/* Student */}
+                    <Route
+                        path="/dashboard"
+                        element={
+                            <ProtectedRoute>
+                                <Dashboard />
+                            </ProtectedRoute>
+                        }
+                    />
 
-                <Route
-                    path="/my-applications"
-                    element={
-                        <ProtectedRoute role="STUDENT">
-                            <MyApplications />
-                        </ProtectedRoute>
-                    }
-                />
+                    {/* Student */}
 
-                {/* Admin */}
+                    <Route
+                        path="/my-applications"
+                        element={
+                            <ProtectedRoute role="STUDENT">
+                                <MyApplications />
+                            </ProtectedRoute>
+                        }
+                    />
 
-                <Route
-                    path="/admin-dashboard"
-                    element={
-                        <ProtectedRoute role="ADMIN">
-                            <AdminDashboard />
-                        </ProtectedRoute>
-                    }
-                />
+                    {/* Admin */}
 
-                <Route
-                    path="/add-scholarship"
-                    element={
-                        <ProtectedRoute role="ADMIN">
-                            <AddScholarship />
-                        </ProtectedRoute>
-                    }
-                />
+                    <Route
+                        path="/admin-dashboard"
+                        element={
+                            <ProtectedRoute role="ADMIN">
+                                <AdminDashboard />
+                            </ProtectedRoute>
+                        }
+                    />
 
-                <Route
-                    path="/registered-users"
-                    element={
-                        <ProtectedRoute role="ADMIN">
-                            <RegisteredUsers />
-                        </ProtectedRoute>
-                    }
-                />
+                    <Route
+                        path="/add-scholarship"
+                        element={
+                            <ProtectedRoute role="ADMIN">
+                                <AddScholarship />
+                            </ProtectedRoute>
+                        }
+                    />
 
-                <Route
-                    path="/applications"
-                    element={
-                        <ProtectedRoute role="ADMIN">
-                            <Applications />
-                        </ProtectedRoute>
-                    }
-                />
+                    <Route
+                        path="/registered-users"
+                        element={
+                            <ProtectedRoute role="ADMIN">
+                                <RegisteredUsers />
+                            </ProtectedRoute>
+                        }
+                    />
 
-                <Route
-                    path="*"
-                    element={<Navigate to="/" replace />}
-                />
+                    <Route
+                        path="/applications"
+                        element={
+                            <ProtectedRoute role="ADMIN">
+                                <AdminApplications />
+                            </ProtectedRoute>
+                        }
+                    />
 
-            </Routes>
+                </Routes>
+
+            </main>
 
             <Footer />
 

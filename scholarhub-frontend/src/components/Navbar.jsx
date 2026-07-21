@@ -9,12 +9,12 @@ function Navbar() {
     const token = localStorage.getItem("token");
 
     let role = "";
-    let email = "";
+    let name = "";
 
     if (token) {
         const data = jwtDecode(token);
         role = data.role;
-        email = data.sub;
+        name = data.name || data.sub;
     }
 
     function logout() {
@@ -24,87 +24,90 @@ function Navbar() {
 
     return (
 
-        <nav className="navbar">
+        <header className="navbar">
 
-            <div className="logo">
-                <Link to="/">
-                    <h2>🎓 ScholarHub</h2>
-                </Link>
-            </div>
+            <div className="navbar-inner container">
 
-            <div className="nav-links">
-
-                <Link to="/">Home</Link>
-
-                <Link to="/scholarships">
-                    Scholarships
+                <Link to="/" className="brand">
+                    <span className="brand-seal">SH</span>
+                    <span className="brand-name">ScholarHub</span>
                 </Link>
 
-                {
-                    token && role === "STUDENT" && (
-                        <Link to="/my-applications">
-                            My Applications
-                        </Link>
-                    )
-                }
+                <nav className="nav-links">
 
-                {
-                    token && role === "ADMIN" && (
-                        <>
-                            <Link to="/admin-dashboard">
-                                Dashboard
-                            </Link>
+                    <Link to="/">Home</Link>
 
-                            <Link to="/add-scholarship">
-                                Add Scholarship
-                            </Link>
+                    <Link to="/scholarships">
+                        Scholarships
+                    </Link>
 
-                            <Link to="/registered-users">
-                                Users
+                    {
+                        token && role === "STUDENT" && (
+                            <Link to="/my-applications">
+                                My Applications
                             </Link>
-                        </>
-                    )
-                }
+                        )
+                    }
+
+                    {
+                        token && role === "ADMIN" && (
+                            <>
+                                <Link to="/admin-dashboard">
+                                    Dashboard
+                                </Link>
+
+                                <Link to="/add-scholarship">
+                                    Add Scholarship
+                                </Link>
+
+                                <Link to="/registered-users">
+                                    Users
+                                </Link>
+                            </>
+                        )
+                    }
+
+                </nav>
+
+                <div className="nav-right">
+
+                    {
+                        token ? (
+                            <>
+                                <span className="nav-user">
+                                    <span className="nav-user-dot" />
+                                    {name}
+                                </span>
+
+                                <button
+                                    className="btn btn-outline-navy nav-btn"
+                                    onClick={logout}
+                                >
+                                    Logout
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <Link to="/login">
+                                    <button className="btn btn-outline-navy nav-btn">
+                                        Login
+                                    </button>
+                                </Link>
+
+                                <Link to="/register">
+                                    <button className="btn btn-gold nav-btn">
+                                        Register
+                                    </button>
+                                </Link>
+                            </>
+                        )
+                    }
+
+                </div>
 
             </div>
 
-            <div className="nav-right">
-
-                {
-                    token ? (
-                        <>
-
-                            <span>{email}</span>
-
-                            <button
-                                onClick={logout}
-                            >
-                                Logout
-                            </button>
-
-                        </>
-                    ) : (
-
-                        <>
-                            <Link to="/login">
-                                <button>
-                                    Login
-                                </button>
-                            </Link>
-
-                            <Link to="/register">
-                                <button>
-                                    Register
-                                </button>
-                            </Link>
-                        </>
-
-                    )
-                }
-
-            </div>
-
-        </nav>
+        </header>
 
     );
 }
