@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 import { getStudentApplications } from "../service/ApplicationApi";
 import "../css/Application.css";
 
@@ -14,8 +15,14 @@ function MyApplications() {
 
         try {
 
-            // Temporary student ID
-            const studentId = 1;
+            const token = localStorage.getItem("token");
+
+            if (!token) {
+                alert("Please log in to view your applications.");
+                return;
+            }
+
+            const { id: studentId } = jwtDecode(token);
 
             const response = await getStudentApplications(studentId);
 
@@ -30,13 +37,21 @@ function MyApplications() {
         }
     }
 
+    function statusClass(status) {
+
+        if (status === "APPROVED") return "status-approved";
+        if (status === "REJECTED") return "status-rejected";
+        return "status-pending";
+
+    }
+
     return (
 
         <div className="application-container">
 
             <h1>My Scholarship Applications</h1>
 
-            <table border="1" cellPadding="10">
+            <table>
 
                 <thead>
 
@@ -79,7 +94,13 @@ function MyApplications() {
 
                                         <td>{application.applicationDate}</td>
 
-                                        <td>{application.status}</td>
+                                        <td>
+                                            <span
+                                                className={`status-pill ${statusClass(application.status)}`}
+                                            >
+                                                {application.status}
+                                            </span>
+                                        </td>
 
                                         <td>{application.remarks}</td>
 

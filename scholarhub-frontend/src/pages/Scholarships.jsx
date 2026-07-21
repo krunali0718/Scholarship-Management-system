@@ -1,13 +1,21 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 import {
     getAllScholarships,
     deleteScholarship
 } from "../service/ScholarshipApi";
+import ScholarshipCard from "../components/ScholarshipCard";
+import "../css/Scholarship.css";
 
 function Scholarships() {
 
     const [scholarships, setScholarships] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [search, setSearch] = useState("");
+
+    const token = localStorage.getItem("token");
+    const role = token ? jwtDecode(token).role : null;
 
     useEffect(() => {
         loadScholarships();
@@ -15,20 +23,30 @@ function Scholarships() {
 
     async function loadScholarships() {
 
+        setLoading(true);
+
         try {
 
             const response = await getAllScholarships();
-            setScholarships(response.data);
+            setScholarships(response.data || []);
 
         } catch (error) {
 
             console.log(error);
             alert("Unable to load scholarships.");
 
+        } finally {
+
+            setLoading(false);
+
         }
     }
 
     async function removeScholarship(id) {
+
+        if (!window.confirm("Delete this scholarship? This cannot be undone.")) {
+            return;
+        }
 
         try {
 
@@ -48,81 +66,101 @@ function Scholarships() {
 
     }
 
+    const filtered = scholarships.filter((s) =>
+        `${s.title} ${s.category} ${s.eligibility}`
+            .toLowerCase()
+            .includes(search.toLowerCase())
+    );
+
     return (
 
-        <div>
+        <div className="scholarships-page">
 
-            <h1>Scholarship List</h1>
+            <div className="scholarships-hero">
 
-            <table border="1" cellPadding="10">
+                <div className="container">
 
-                <thead>
+                    <span className="eyebrow eyebrow-light">
+                        <span className="eyebrow-dot" />
+                        {scholarships.length} scholarships listed
+                    </span>
 
-                    <tr>
+                    <h1>Browse Scholarships</h1>
 
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Amount</th>
-                        <th>Category</th>
-                        <th>Eligibility</th>
-                        <th>Last Date</th>
-                        <th>Action</th>
+                    <p>
+                        Search by title, category, or eligibility to find
+                        the awards you qualify for.
+                    </p>
 
-                    </tr>
+                    <input
+                        type="text"
+                        className="scholarships-search"
+                        placeholder="Search scholarships…"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
 
-                </thead>
+                </div>
 
-                <tbody>
+            </div>
 
-                    {
-                        scholarships.map((scholarship) => (
+            <div className="container scholarships-body">
 
-                            <tr key={scholarship.id}>
+                {
+                    role === "ADMIN" && (
 
-                                <td>{scholarship.id}</td>
+                        <div className="admin-toolbar">
 
-                                <td>{scholarship.title}</td>
+                            <Link to="/add-scholarship">
+                                <button className="btn btn-gold">
+                                    + Add Scholarship
+                                </button>
+                            </Link>
 
-                                <td>₹ {scholarship.amount}</td>
+                        </div>
 
-                                <td>{scholarship.category}</td>
+                    )
+                }
 
-                                <td>{scholarship.eligibility}</td>
+                {
+                    loading ? (
 
-                                <td>{scholarship.lastDate}</td>
+                        <p className="muted-note">Loading scholarships…</p>
 
-                                <td>
+                    ) : filtered.length === 0 ? (
 
-                                    <Link
-                                        to={`/scholarship/${scholarship.id}`}
-                                    >
-                                        <button>
-                                            View
-                                        </button>
-                                    </Link>
+                        <div className="empty-note">
+                            <p>
+                                No scholarships match your search right now.
+                            </p>
+                        </div>
 
-                                    &nbsp;
+                    ) : (
 
-                                    <button
-                                        onClick={() =>
-                                            removeScholarship(
-                                                scholarship.id
-                                            )
+                        <div className="scholarship-grid">
+
+                            {
+                                filtered.map((scholarship) => (
+
+                                    <ScholarshipCard
+                                        key={scholarship.id}
+                                        scholarship={scholarship}
+                                        onDelete={
+                                            role === "ADMIN"
+                                                ? removeScholarship
+                                                : undefined
                                         }
-                                    >
-                                        Delete
-                                    </button>
+                                    />
 
-                                </td>
+                                ))
+                            }
 
-                            </tr>
+                        </div>
 
-                        ))
-                    }
+                    )
+                }
 
-                </tbody>
-
-            </table>
+            </div>
 
         </div>
 

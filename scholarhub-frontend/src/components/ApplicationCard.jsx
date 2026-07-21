@@ -2,6 +2,14 @@ import "../css/Application.css";
 
 function ApplicationCard({ application, onApprove, onReject }) {
 
+    function statusClass(status) {
+
+        if (status === "APPROVED") return "status-approved";
+        if (status === "REJECTED") return "status-rejected";
+        return "status-pending";
+
+    }
+
     return (
 
         <div className="application-card">
@@ -20,7 +28,11 @@ function ApplicationCard({ application, onApprove, onReject }) {
 
             <p>
                 <strong>Status :</strong>
-                {application.status}
+                <span
+                    className={`status-pill ${statusClass(application.status)}`}
+                >
+                    {application.status}
+                </span>
             </p>
 
             <p>

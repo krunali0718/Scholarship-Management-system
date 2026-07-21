@@ -14,3 +14,13 @@ export function getAllApplications() {
 export function getStudentApplications(studentId) {
     return api.get(`/application/student/${studentId}`);
 }
+
+// Approve an application (Admin)
+export function approveApplication(applicationId) {
+    return api.put(`/application/approve/${applicationId}`);
+}
+
+// Reject an application (Admin)
+export function rejectApplication(applicationId) {
+    return api.put(`/application/reject/${applicationId}`);
+}

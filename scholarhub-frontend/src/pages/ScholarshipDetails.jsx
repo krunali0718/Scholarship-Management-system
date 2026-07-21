@@ -1,36 +1,80 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 import { getScholarshipById } from "../service/ScholarshipApi";
+import { applyScholarship } from "../service/ApplicationApi";
 import "../css/Scholarship.css";
 
 function ScholarshipDetails() {
 
     const { id } = useParams();
+    const navigate = useNavigate();
 
     const [scholarship, setScholarship] = useState(null);
+    const [applying, setApplying] = useState(false);
+
+    const token = localStorage.getItem("token");
+    const role = token ? jwtDecode(token).role : null;
 
     useEffect(() => {
+        loadScholarship();
+    }, []);
 
-        async function loadScholarship() {
+    async function loadScholarship() {
 
-            try {
+        try {
 
-                const response = await getScholarshipById(id);
+            const response = await getScholarshipById(id);
 
-                setScholarship(response.data);
+            setScholarship(response.data);
 
-            } catch (error) {
+        } catch (error) {
 
-                console.log(error);
+            console.log(error);
 
-                alert("Unable to load Scholarship Details");
+            alert("Unable to load Scholarship Details");
 
-            }
+        }
+    }
+
+    async function handleApply() {
+
+        if (!token) {
+            alert("Please log in as a student to apply.");
+            navigate("/login");
+            return;
         }
 
-        loadScholarship();
+        const { id: studentId } = jwtDecode(token);
 
-    }, [id]);
+        setApplying(true);
+
+        try {
+
+            await applyScholarship({
+                studentId,
+                scholarshipId: Number(id)
+            });
+
+            alert("Application submitted successfully!");
+
+            navigate("/my-applications");
+
+        } catch (error) {
+
+            console.log(error);
+
+            alert(
+                error.response?.data?.message ||
+                "Unable to submit application."
+            );
+
+        } finally {
+
+            setApplying(false);
+
+        }
+    }
 
     if (!scholarship) {
 
@@ -79,9 +123,17 @@ function ScholarshipDetails() {
 
             <br />
 
-            <button>
-                Apply Scholarship
-            </button>
+            {
+                role === "ADMIN" ? null : (
+                    <button
+                        className="btn btn-gold"
+                        onClick={handleApply}
+                        disabled={applying}
+                    >
+                        {applying ? "Submitting..." : "Apply Scholarship"}
+                    </button>
+                )
+            }
 
         </div>
 
